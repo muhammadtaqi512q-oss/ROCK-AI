@@ -7,26 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-        /* Password Screen */
-        #passwordScreen {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 99999;
-        }
-        #passwordBox {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 350px;
-            text-align: center;
-        }
-
         /* ChatGPT-style bubble animation */
         .ai-bubble {
             animation: fadeIn 0.4s ease-out;
@@ -36,20 +16,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
-
-    <script>
-        /* ---------------- PASSWORD FUNCTION ---------------- */
-        function checkPassword() {
-            const correctPassword = "51214";
-            const userPassword = document.getElementById("passwordInput").value;
-
-            if (userPassword === correctPassword) {
-                document.getElementById("passwordScreen").style.display = "none";
-            } else {
-                alert("❌ Incorrect password!");
-            }
-        }
-    </script>
 
     <script type="module">
         /* ---------------------- Firebase ------------------------- */
@@ -98,7 +64,7 @@
                         await new Promise(res => setTimeout(res, delay));
                         continue;
                     }
-                    throw new Error(`API failed: ${r.status}`);
+                    throw new Error(API failed: ${r.status});
                 } catch (e) {
                     if (i === retries) throw e;
                     await new Promise(res => setTimeout(res, 2 ** i * 1000));
@@ -106,10 +72,10 @@
             }
         }
 
-        /* ---------------------- Gemini API ------------------------- */
+        /* ---------------------- Gemini ------------------------- */
         async function generateAIContent(prompt) {
             const apiKey = "AIzaSyC1v0qpnQ67wdZ-F1JiAMZ2d-HH4HFF-WU";
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const url = https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey};
 
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
@@ -177,20 +143,20 @@
                 try {
                     const text = await generateAIContent(prompt);
 
-                    responseContainer.innerHTML = `
+                    responseContainer.innerHTML = 
                         <div class="ai-bubble bg-white dark:bg-gray-800 
                                     text-gray-900 dark:text-gray-100 p-5 
                                     rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700">
                             ${text.replace(/\n/g, "<br>")}
                         </div>
-                    `;
+                    ;
 
                     lastAIResponse = text;
                     repeatVoiceButton.classList.remove("hidden");
                     speakText(text);
 
                 } catch (e) {
-                    responseContainer.innerHTML = `<p class="text-red-600">${e}</p>`;
+                    responseContainer.innerHTML = <p class="text-red-600">${e}</p>;
                 }
 
                 loadingIndicator.classList.add("hidden");
@@ -198,26 +164,9 @@
             };
         };
     </script>
-
 </head>
 
 <body class="bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col items-center p-6">
-
-    <!-- PASSWORD SCREEN -->
-    <div id="passwordScreen">
-        <div id="passwordBox">
-            <h2 class="text-2xl font-bold mb-4">Enter Password</h2>
-
-            <input id="passwordInput" type="password"
-                   placeholder="Enter Password"
-                   class="w-full p-3 border rounded mb-4">
-
-            <button onclick="checkPassword()"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">
-                Unlock
-            </button>
-        </div>
-    </div>
 
     <div class="w-full max-w-3xl">
 
@@ -226,7 +175,7 @@
                 ROCK AI
             </h1>
             <p class="text-gray-500 dark:text-gray-400 mt-2">
-                Built by ꧁༒𝓜𝓾𝓱𝓪𝓶𝓶𝓪𝓭𝓣𝓪𝓺𝓲༒꧂
+                Built by  ꧁༒𝓜𝓾𝓱𝓪𝓶𝓶𝓪𝓭𝓣𝓪𝓺𝓲༒꧂
             </p>
         </div>
 
