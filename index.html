@@ -15,10 +15,29 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* 3D-style animated gradient background */
+        body {
+            background: linear-gradient(135deg, #1f2937, #111827, #1e3a8a);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Container shadow for 3D effect */
+        .container-3d {
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transform: translateZ(0);
+        }
     </style>
 
     <script type="module">
-        /* ---------------------- Firebase ------------------------- */
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
@@ -52,7 +71,6 @@
             }
         }
 
-        /* ---------------------- Backoff Fetch ------------------------- */
         async function fetchWithBackoff(url, opts, retries = 5) {
             for (let i = 1; i <= retries; i++) {
                 try {
@@ -64,7 +82,7 @@
                         await new Promise(res => setTimeout(res, delay));
                         continue;
                     }
-                    throw new Error(API failed: ${r.status});
+                    throw new Error(`API failed: ${r.status}`);
                 } catch (e) {
                     if (i === retries) throw e;
                     await new Promise(res => setTimeout(res, 2 ** i * 1000));
@@ -72,10 +90,9 @@
             }
         }
 
-        /* ---------------------- Gemini ------------------------- */
         async function generateAIContent(prompt) {
             const apiKey = "AIzaSyC1v0qpnQ67wdZ-F1JiAMZ2d-HH4HFF-WU";
-            const url = https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey};
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
@@ -95,7 +112,6 @@
             return text || "Error: No response from AI.";
         }
 
-        /* ---------------------- Voice Functions ------------------------- */
         function speakText(text) {
             const u = new SpeechSynthesisUtterance(text);
             u.lang = "en-US";
@@ -116,7 +132,6 @@
             rec.onresult = e => target.value = e.results[0][0].transcript;
         }
 
-        /* ---------------------- UI Logic ------------------------- */
         window.onload = async () => {
             await initializeFirebaseAndAuth();
 
@@ -143,20 +158,20 @@
                 try {
                     const text = await generateAIContent(prompt);
 
-                    responseContainer.innerHTML = 
+                    responseContainer.innerHTML = `
                         <div class="ai-bubble bg-white dark:bg-gray-800 
                                     text-gray-900 dark:text-gray-100 p-5 
                                     rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700">
                             ${text.replace(/\n/g, "<br>")}
                         </div>
-                    ;
+                    `;
 
                     lastAIResponse = text;
                     repeatVoiceButton.classList.remove("hidden");
                     speakText(text);
 
                 } catch (e) {
-                    responseContainer.innerHTML = <p class="text-red-600">${e}</p>;
+                    responseContainer.innerHTML = `<p class="text-red-600">${e}</p>`;
                 }
 
                 loadingIndicator.classList.add("hidden");
@@ -166,15 +181,15 @@
     </script>
 </head>
 
-<body class="bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col items-center p-6">
+<body class="flex flex-col items-center p-6">
 
-    <div class="w-full max-w-3xl">
+    <div class="w-full max-w-3xl container-3d">
 
         <div class="text-center mb-8">
-            <h1 class="text-4xl font-extrabold text-gray-800 dark:text-gray-100">
+            <h1 class="text-4xl font-extrabold text-gray-100">
                 ROCK AI
             </h1>
-            <p class="text-gray-500 dark:text-gray-400 mt-2">
+            <p class="text-gray-300 mt-2">
                 Built by  ꧁༒𝓜𝓾𝓱𝓪𝓶𝓶𝓪𝓭𝓣𝓪𝓺𝓲༒꧂
             </p>
         </div>
@@ -214,7 +229,7 @@
 
         <div id="loadingIndicator" class="hidden mt-6 text-center">
             <div class="animate-spin rounded-full h-10 w-10 border-b-4 border-blue-600 mx-auto"></div>
-            <p class="mt-3 text-gray-600 dark:text-gray-300">Thinking...</p>
+            <p class="mt-3 text-gray-300">Thinking...</p>
         </div>
 
         <div id="responseContainer" class="mt-8 space-y-4"></div>
