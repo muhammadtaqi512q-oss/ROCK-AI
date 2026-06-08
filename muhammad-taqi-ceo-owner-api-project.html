@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexura API Generator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #38bdf8;
+        }
+
+        p {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .allowed-tokens {
+            background: #0f172a;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #38bdf8;
+            margin-bottom: 20px;
+            word-break: break-all;
+        }
+
+        .api-box {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #334155;
+            color: #f1f5f9;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-gen {
+            background: #38bdf8;
+            color: #0f172a;
+        }
+
+        .btn-gen:hover {
+            background: #0ea5e9;
+        }
+
+        .btn-copy {
+            background: #334155;
+            color: #f8fafc;
+        }
+
+        .btn-copy:hover {
+            background: #475569;
+        }
+
+        .history-section {
+            text-align: left;
+            border-top: 1px solid #334155;
+            padding-top: 20px;
+        }
+
+        .history-title {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .history-list {
+            list-style: none;
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 13px;
+            font-family: monospace;
+        }
+
+        .history-list li {
+            padding: 6px 10px;
+            background: #111827;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            color: #cbd5e1;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>API Key Generator</h1>
+        <p>Generate secure custom API keys instantly</p>
+
+        <div class="allowed-tokens">
+            <strong>Allowed Tokens:</strong> 5, 12, 14, 72, 786, 7, mt, tm, az, zf, mh
+        </div>
+
+        <div class="api-box" id="api-display">Click Generate Button</div>
+
+        <div class="btn-group">
+            <button class="btn-gen" onclick="generateApiKey()">Generate</button>
+            <button class="btn-copy" onclick="copyKey()">Copy Key</button>
+        </div>
+
+        <div class="history-section">
+            <div class="history-title">Recent Keys</div>
+            <ul class="history-list" id="history-log">
+                <!-- Generated keys yahan save hongi -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Jo tokens aap ne bataye unki array
+        const tokens = ["5", "12", "14", "72", "786", "7", "mt", "tm", "az", "zf", "mh"];
+
+        function generateApiKey() {
+            // Shuruat hamesha "mt" se hogi (2 characters)
+            let apiKey = "mt"; 
+            
+            // Hamein mazeed 12 characters chahiye (Total = 2 + 12 = 14 length)
+            // Loop tab tak chalega jab tak character length strict 14 nahi ho jati
+            while (apiKey.length < 14) {
+                // Randomly ek token uthana
+                const randomToken = tokens[Math.floor(Math.random() * tokens.length)];
+                
+                // Check karna ke naya token add karne se length 14 se zyada na ho jaye
+                if (apiKey.length + randomToken.length <= 14) {
+                    apiKey += randomToken;
+                }
+            }
+
+            // Display update karna
+            document.getElementById("api-display").innerText = apiKey;
+
+            // History mein add karna
+            addToHistory(apiKey);
+        }
+
+        function copyKey() {
+            const keyText = document.getElementById("api-display").innerText;
+            if (keyText === "Click Generate Button" || keyText === "Copied!") return;
+
+            navigator.clipboard.writeText(keyText).then(() => {
+                const display = document.getElementById("api-display");
+                const originalText = display.innerText;
+                display.innerText = "Copied!";
+                display.style.color = "#4ade80"; // Green color on success
+
+                setTimeout(() => {
+                    display.innerText = originalText;
+                    display.style.color = "#f1f5f9";
+                }, 1000);
+            });
+        }
+
+        function addToHistory(key) {
+            const log = document.getElementById("history-log");
+            const li = document.createElement("li");
+            li.innerText = key;
+            
+            // Newest key ko top par dikhane ke liye
+            log.insertBefore(li, log.firstChild);
+
+            // Sirf last 5 keys list mein rakhne ke liye
+            if (log.children.length > 5) {
+                log.removeChild(log.lastChild);
+            }
+        }
+    </script>
+</body>
+</html>
