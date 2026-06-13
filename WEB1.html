@@ -1,29 +1,22 @@
-<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Web 2 - Security Logic</title>    <style>        body { margin: 0; padding: 0; background-color: #000; color: #fff; font-family: 'Arial', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }        .king-text { font-size: 3rem; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }        .error { color: #ff4d4d; font-size: 1.5rem; }    </style></head><body>
-    <div id="status" class="king-text">VERIFYING...</div>
-
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const userAPI = urlParams.get('api');
-        const statusDiv = document.getElementById('status');
-
-        fetch(`/api/verify?api=${userAPI}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    statusDiv.textContent = "MUHAMMAD TAQI KING";
-                    statusDiv.className = "king-text";
-
-                    if (window.parent !== window) {
-                        window.parent.postMessage({ status: 'success', url: data.url }, '*');
-                    }
-                } else {
-                    statusDiv.textContent = "INVALID API KEY ACCESS DENIED";
-                    statusDiv.className = "error";
-                }
-            })
-            .catch(() => {
-                statusDiv.textContent = "SERVER ERROR";
-                statusDiv.className = "error";
-            });
-    </script>
-</body></html>
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Loading...</title></head>
+<body>
+<script>
+fetch('README.md')
+  .then(r => r.text())
+  .then(md => {
+    // Extract code between ```html and ``` from README
+    const match = md.match(/```html\n([\s\S]*?)\n```/);
+    if (match) {
+      document.open();
+      document.write(match[1]);
+      document.close();
+    } else {
+      document.body.innerText = 'Error: No HTML code in README';
+    }
+  })
+  .catch(e => document.body.innerText = 'Error loading README');
+</script>
+</body>
+</html>
