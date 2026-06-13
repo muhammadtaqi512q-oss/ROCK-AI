@@ -6,7 +6,6 @@
         const userAPI = urlParams.get('api');
         const statusDiv = document.getElementById('status');
 
-        // Backend server API ko request bhej rahe hain (Bina backend server setup kiye)
         fetch(`/api/verify?api=${userAPI}`)
             .then(res => res.json())
             .then(data => {
@@ -14,7 +13,6 @@
                     statusDiv.textContent = "MUHAMMAD TAQI KING";
                     statusDiv.className = "king-text";
 
-                    // Parent window (Web 1) ko secure target link bhej rahe hain jo backend se aya hai
                     if (window.parent !== window) {
                         window.parent.postMessage({ status: 'success', url: data.url }, '*');
                     }
