@@ -1,38 +1,123 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Loading...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web 1 - Live GitHub Security Gate</title>
     <style>
-        body { margin:0; background:#fff; }
-        iframe { width:100%; height:100vh; border:none; }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .king-text {
+            font-size: 3rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .error {
+            color: #ff4d4d;
+            font-size: 1.5rem;
+        }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
-    <iframe id="runner" style="display:none"></iframe>
+
+    <div id="status" class="king-text">CONNECTING TO SERVER...</div>
+
     <script>
-        // Fetch the hidden code from README.md
-        fetch('README.md')
-            .then(res => res.text())
-            .then(md => {
-                // Extract content between ```html and ``` 
-                const match = md.match(/```html([\s\S]*?)```/);
-                if (match) {
-                    let htmlCode = match[1].trim();
-                    // Create a blob and load it into the iframe
-                    const blob = new Blob([htmlCode], {type: 'text/html'});
-                    const url = URL.createObjectURL(blob);
-                    const iframe = document.getElementById('runner');
-                    iframe.style.display = 'block';
-                    iframe.src = url;
-                    URL.revokeObjectURL(url);
-                } else {
-                    document.body.innerHTML = '<h3>Error: No HTML code block found in README.md</h3>';
-                }
-            })
-            .catch(err => {
-                document.body.innerHTML = '<h3>Error loading README.md: ' + err.message + '</h3>';
-            });
+        // 1. Security Protections (Copy Paste & Inspect Element Block)
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+        };
+        setInterval(function(){ debugger; }, 100);
+
+        // 2. CONFIGURATION: Apne GitHub ki details yahan dalein
+        const githubUsername = "muhammadtaqi512q-oss"; // Aapka GitHub username
+        const repoName = "puzzle";                      // Aapki repository ka naam
+        const branchName = "main";                     // Branch ka naam (main ya master)
+
+        // Raw GitHub URL jahan se README.md direct text format mein load hoga
+        const readmeURL = `https://raw.githubusercontent.com/${githubUsername}/${repoName}/${branchName}/README.md`;
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function validateAPI(api) {
+            if (!api || api.length !== 10) return false;
+            if (!api.startsWith('mt')) return false;
+            const pattern = /^(mt|tm|zf|mh|az|5|12|14|72|786)+$/;
+            return pattern.test(api);
+        }
+
+        const userAPI = getQueryParam('api');
+        const statusDiv = document.getElementById('status');
+
+        if (validateAPI(userAPI)) {
+            statusDiv.textContent = "VERIFYING... VIA GITHUB";
+
+            // 3. GitHub README.md se encrypted link fetch karna
+            fetch(readmeURL)
+                .then(response => {
+                    if (!response.ok) throw new Error("GitHub Fetch Failed");
+                    return response.text();
+                })
+                .then(readmeText => {
+                    // README mein se khali jaghein (spaces/newlines) khatam karna
+                    const encryptedTarget = readmeText.trim();
+
+                    try {
+                        // User ki API key se README ke andar likhe encrypted text ko unlock karna
+                        const bytes = CryptoJS.AES.decrypt(encryptedTarget, userAPI);
+                        const decryptedURL = bytes.toString(CryptoJS.enc.Utf8);
+
+                        if (decryptedURL && decryptedURL.startsWith('http')) {
+                            statusDiv.textContent = "MUHAMMAD TAQI KING";
+                            statusDiv.className = "king-text";
+
+                            if (window.parent !== window) {
+                                window.parent.postMessage({ status: 'success', url: decryptedURL }, '*');
+                            } else {
+                                setTimeout(() => {
+                                    window.location.href = decryptedURL;
+                                }, 1200);
+                            }
+                        } else {
+                            throw new Error("Wrong Key");
+                        }
+                    } catch (err) {
+                        statusDiv.textContent = "INVALID API KEY ACCESS DENIED";
+                        statusDiv.className = "error";
+                    }
+                })
+                .catch(err => {
+                    statusDiv.textContent = "SERVER CONNECTION ERROR";
+                    statusDiv.className = "error";
+                });
+        } else {
+            statusDiv.textContent = "INVALID API KEY ACCESS DENIED";
+            statusDiv.className = "error";
+        }
     </script>
 </body>
 </html>
