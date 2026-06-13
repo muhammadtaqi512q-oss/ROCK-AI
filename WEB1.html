@@ -1,22 +1,38 @@
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"><title>Loading...</title></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Loading...</title>
+    <style>
+        body { margin:0; background:#fff; }
+        iframe { width:100%; height:100vh; border:none; }
+    </style>
+</head>
 <body>
-<script>
-fetch('README.md')
-  .then(r => r.text())
-  .then(md => {
-    // Extract code between ```html and ``` from README
-    const match = md.match(/```html\n([\s\S]*?)\n```/);
-    if (match) {
-      document.open();
-      document.write(match[1]);
-      document.close();
-    } else {
-      document.body.innerText = 'Error: No HTML code in README';
-    }
-  })
-  .catch(e => document.body.innerText = 'Error loading README');
-</script>
+    <iframe id="runner" style="display:none"></iframe>
+    <script>
+        // Fetch the hidden code from README.md
+        fetch('README.md')
+            .then(res => res.text())
+            .then(md => {
+                // Extract content between ```html and ``` 
+                const match = md.match(/```html([\s\S]*?)```/);
+                if (match) {
+                    let htmlCode = match[1].trim();
+                    // Create a blob and load it into the iframe
+                    const blob = new Blob([htmlCode], {type: 'text/html'});
+                    const url = URL.createObjectURL(blob);
+                    const iframe = document.getElementById('runner');
+                    iframe.style.display = 'block';
+                    iframe.src = url;
+                    URL.revokeObjectURL(url);
+                } else {
+                    document.body.innerHTML = '<h3>Error: No HTML code block found in README.md</h3>';
+                }
+            })
+            .catch(err => {
+                document.body.innerHTML = '<h3>Error loading README.md: ' + err.message + '</h3>';
+            });
+    </script>
 </body>
 </html>
