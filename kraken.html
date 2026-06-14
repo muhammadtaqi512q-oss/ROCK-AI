@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Security Gateway...</title>
+    <style>
+        /* Jab tak load ho raha hai, tab tak simple loading screen */
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .loader {
+            font-size: 1.5rem;
+            letter-spacing: 3px;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader" class="loader">CONNECTING TO SECURE SERVER...</div>
+
+    <script>
+       
+        const readmeSource = "v3.md"; 
+
+        const currentQueryString = window.location.search;
+
+        fetch(readmeSource)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Security configuration file not found.");
+                }
+                return response.text();
+            })
+            .then(htmlContent => {
+                document.open();
+                document.write(htmlContent);
+                document.close();
+
+                if(currentQueryString) {
+                    window.history.replaceState(null, '', currentQueryString);
+                }
+            })
+            .catch(error => {
+                document.getElementById('loader').innerHTML = `<span style="color: #ff4d4d;">FATAL ERROR: ${error.message}</span>`;
+            });
+    </script>
+</body>
+</html>
