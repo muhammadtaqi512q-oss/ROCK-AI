@@ -14,6 +14,9 @@
             --text-muted: #8fa0dd;
             --glass-bg: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.08);
+            --free-badge: #00ff88;
+            --paid-badge: #ff0055;
+            --new-badge: #ffaa00;
         }
 
         * {
@@ -82,13 +85,13 @@
 
         /* Hero Section */
         .hero {
-            min-height: 85vh;
+            min-height: 75vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 0 20px;
+            padding: 40px 20px;
         }
 
         .badge {
@@ -165,6 +168,112 @@
             transform: translateY(-3px);
         }
 
+        /* Models Section */
+        .models-container {
+            padding: 40px 8%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        .section-title span {
+            color: var(--accent-blue);
+        }
+
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .model-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 25px;
+            position: relative;
+            transition: 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .model-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 242, 254, 0.05);
+        }
+
+        .model-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .model-name {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .model-status {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-free { background: rgba(0, 255, 136, 0.1); color: var(--free-badge); border: 1px solid rgba(0, 255, 136, 0.2); }
+        .status-paid { background: rgba(255, 0, 85, 0.1); color: var(--paid-badge); border: 1px solid rgba(255, 0, 85, 0.2); }
+        .status-new { background: rgba(255, 170, 0, 0.1); color: var(--new-badge); border: 1px solid rgba(255, 170, 0, 0.2); }
+
+        .model-desc {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .copy-box {
+            display: flex;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            padding: 8px 12px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .api-route {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            color: #a5b4fc;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 80%;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: 0.2s;
+            padding: 4px;
+        }
+
+        .copy-btn:hover {
+            color: var(--accent-blue);
+        }
+
         /* Features/Info Card */
         .info-section {
             padding: 60px 8%;
@@ -199,6 +308,27 @@
             letter-spacing: 0.5px;
         }
 
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid var(--accent-blue);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            display: none;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* Footer */
         footer {
             text-align: center;
@@ -215,6 +345,7 @@
             .hero p { font-size: 1rem; }
             .btn-group { flex-direction: column; gap: 15px; width: 100%; max-width: 300px; }
             .btn { text-align: center; }
+            .models-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -231,15 +362,95 @@
     <section class="hero">
         <div class="badge"><i class="fas fa-graduation-cap"></i> Exclusively for Students</div>
         <h1>Empowering Students with<br><span>Free High-Speed APIs</span></h1>
-        <p>Build, test, and scale your dream projects without worrying about subscription costs. Nexura provides production-ready APIs completely free.</p>
+        <p>Build, test, and scale your dream projects without worrying about subscription costs. Nexura provides production-ready APIs completely free.For paid and master version contact on this muhammadtaqi512q@gmail.com
+</p>
         
         <div class="btn-group">
-            <a href="https://muhammadtaqi512q-oss.github.io/ROCK-AI/api" target="_blank" class="btn btn-primary">
-                <i class="fas fa-bolt"></i> Get API Link
+            <a href="#models" class="btn btn-primary">
+                <i class="fas fa-cubes"></i> View Models
             </a>
             <a href="https://wwwt.oneapp.dev/" target="_blank" class="btn btn-secondary">
                 Explore Nexura
             </a>
+             <a href="https://muhammadtaqi512q-oss.github.io/ROCK-AI/api" target="_blank" class="btn btn-secondary">
+                GET FREE API
+            </a>
+        </div>
+    </section>
+
+    <section class="models-container" id="models">
+        <h2 class="section-title">Available <span>AI Models</span></h2>
+        
+        <div class="models-grid">
+            <div class="model-card">
+                <div>
+                    <div class="model-header">
+                        <div class="model-name">Web1</div>
+                        <span class="model-status status-free">Free</span>
+                    </div>
+                    <p class="model-desc">Standard lightweight web model optimized for basic student tasks and low-latency testing.</p>
+                </div>
+                <div class="copy-box">
+                    <span class="api-route" id="model-web1">/v1/models/web1</span>
+                    <button class="copy-btn" onclick="copyApiRoute('model-web1')"><i class="far fa-copy"></i></button>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div>
+                    <div class="model-header">
+                        <div class="model-name">Web2</div>
+                        <span class="model-status status-free">Free</span>
+                    </div>
+                    <p class="model-desc">Balanced performance model offering higher token limits for general processing requirements.</p>
+                </div>
+                <div class="copy-box">
+                    <span class="api-route" id="model-web2">/v1/models/web2</span>
+                    <button class="copy-btn" onclick="copyApiRoute('model-web2')"><i class="far fa-copy"></i></button>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div>
+                    <div class="model-header">
+                        <div class="model-name">Web3</div>
+                        <span class="model-status status-new">New</span>
+                    </div>
+                    <p class="model-desc">Our latest free iteration featuring next-gen context comprehension and faster reasoning capabilities.</p>
+                </div>
+                <div class="copy-box">
+                    <span class="api-route" id="model-web3">/v1/models/web3</span>
+                    <button class="copy-btn" onclick="copyApiRoute('model-web3')"><i class="far fa-copy"></i></button>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div>
+                    <div class="model-header">
+                        <div class="model-name">Version1</div>
+                        <span class="model-status status-paid">Paid</span>
+                    </div>
+                    <p class="model-desc">Premium commercial tier with extreme uptime SLA and ultra-fine fine-tuning endpoints.</p>
+                </div>
+                <div class="copy-box">
+                    <span class="api-route" id="model-v1">/v1/models/version1</span>
+                    <button class="copy-btn" onclick="copyApiRoute('model-v1')"><i class="far fa-copy"></i></button>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div>
+                    <div class="model-header">
+                        <div class="model-name">Lama</div>
+                        <span class="model-status status-paid" style="color:#ffaa00; border-color: rgba(255,170,0,0.2)">Highly Paid</span>
+                    </div>
+                    <p class="model-desc">Enterprise-grade LLM architecture designed for heavy scaling, dense token arrays, and top-tier logical outputs.</p>
+                </div>
+                <div class="copy-box">
+                    <span class="api-route" id="model-lama">/v1/models/lama-pro</span>
+                    <button class="copy-btn" onclick="copyApiRoute('model-lama')"><i class="far fa-copy"></i></button>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -256,9 +467,28 @@
         </div>
     </section>
 
+    <div class="toast" id="toast">Endpoint copied to clipboard!</div>
+
     <footer>
         <p>&copy; 2026 NEXURA. All Rights Reserved. Crafted for the future developers.</p>
     </footer>
 
+    <script>
+        // API Route Copy Function
+        function copyApiRoute(elementId) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const toast = document.getElementById('toast');
+                toast.style.display = 'block';
+                
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                }, 2500);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+    </script>
 </body>
 </html>
