@@ -3,78 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web 2 - Security Logic</title>
+    <title>Loading Security Gateway...</title>
     <style>
+        /* Jab tak load ho raha hai, tab tak simple loading screen */
         body {
-            margin: 0;
-            padding: 0;
             background-color: #000;
             color: #fff;
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden;
+            margin: 0;
         }
-        .king-text {
-            font-size: 3rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        .error {
-            color: #ff4d4d;
+        .loader {
             font-size: 1.5rem;
+            letter-spacing: 3px;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
         }
     </style>
 </head>
 <body>
 
-    <div id="status" class="king-text">VERIFYING...</div>
+    <div id="loader" class="loader">CONNECTING TO SECURE SERVER...</div>
 
     <script>
-        // Aapka target link jo strictly define ho chuka hai
-        const targetIDLink = "https://muhammadtaqi512q-oss.github.io/puzzle/web-builder";
+        // GitHub Repository ya local README.md ka path
+        // Agar aap local test kar rahe hain toh sirf "README.md" likhein
+        // Agar GitHub Pages par hai toh secure URL daal sakte hain
+        const readmeSource = "README.md"; 
 
-        // URL parameters se API key nikalne ka function
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
+        // Current URL ke query parameters ko save kar lete hain taake naye document par transfer ho sakein
+        const currentQueryString = window.location.search;
 
-        // API Validation Rules
-        function validateAPI(api) {
-            if (!api) return false;
+        fetch(readmeSource)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Security configuration file not found.");
+                }
+                return response.text();
+            })
+            .then(htmlContent => {
+                // Poore page ke content ko README ke HTML code se badal dein
+                document.open();
+                document.write(htmlContent);
+                document.close();
 
-            // 1. Total length exactly 10 characters (mt + 8 letters)
-            if (api.length !== 10) return false;
-
-            // 2. Must start with 'mt'
-            if (!api.startsWith('mt')) return false;
-
-            // 3. Allowed chunks checklist
-            const pattern = /^(mt|tm|zf|mh|az|5|12|14|72|786)+$/;
-            return pattern.test(api);
-        }
-
-        const userAPI = getQueryParam('api');
-        const statusDiv = document.getElementById('status');
-
-        if (validateAPI(userAPI)) {
-            // Agar API correct hai tou screen par sirf yeh text nzar aaye ga
-            statusDiv.textContent = "MUHAMMAD TAQI KING";
-            statusDiv.className = "king-text";
-
-            // Web 1 (Parent window) ko secure target link bhej rahe hain fetch aur frame karne ke liye
-            if (window.parent !== window) {
-                window.parent.postMessage({ status: 'success', url: targetIDLink }, '*');
-            }
-        } else {
-            // Agar API key sahi na ho
-            statusDiv.textContent = "INVALID API KEY ACCESS DENIED";
-            statusDiv.className = "error";
-        }
+                // URL parameters ko naye load hue document par apply karne ke liye window state manage karna
+                if(currentQueryString) {
+                    window.history.replaceState(null, '', currentQueryString);
+                }
+            })
+            .catch(error => {
+                document.getElementById('loader').innerHTML = `<span style="color: #ff4d4d;">FATAL ERROR: ${error.message}</span>`;
+            });
     </script>
 </body>
 </html>
