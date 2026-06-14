@@ -37,7 +37,7 @@
 
     <script>
         // Aapka target link jo strictly define ho chuka hai
-        const targetIDLink = "https://muhammadtaqi512q-oss.github.io/puzzle/web-builder";
+        const targetIDLink = "https://muhammadtaqi512q-oss.github.io/MASTER-AI-2/1";
 
         // URL parameters se API key nikalne ka function
         function getQueryParam(param) {
