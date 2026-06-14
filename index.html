@@ -1,18 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>My Website</title>
-  <link rel="stylesheet" href="/styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXURA | Free APIs for Students</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --accent-blue: #00f2fe;
+            --accent-purple: #4facfe;
+            --text-main: #ffffff;
+            --text-muted: #8fa0dd;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background Glows */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-purple), var(--accent-blue));
+            filter: blur(150px);
+            opacity: 0.2;
+            z-index: -1;
+        }
+        body::before { top: -50px; right: -50px; }
+        body::after { bottom: 100px; left: -50px; }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: rgba(11, 15, 25, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 20px;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .badge {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            color: var(--accent-blue);
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(120deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
+            color: #000;
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(0, 242, 254, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0, 242, 254, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            color: var(--text-main);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent-blue);
+            transform: translateY(-3px);
+        }
+
+        /* Features/Info Card */
+        .info-section {
+            padding: 60px 8%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            backdrop-filter: blur(12px);
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .ceo-tag {
+            margin-top: 20px;
+            font-size: 15px;
+            color: var(--text-muted);
+        }
+
+        .ceo-name {
+            color: var(--accent-blue);
+            font-weight: 600;
+            font-size: 16px;
+            display: block;
+            margin-top: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 13px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--glass-border);
+            margin-top: 50px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1rem; }
+            .btn-group { flex-direction: column; gap: 15px; width: 100%; max-width: 300px; }
+            .btn { text-align: center; }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-<h1 style="font-size:64px;font-weight:800;line-height:1.1;margin:0 0 16px;color:#1d4ed8;text-align:center">My Website</h1>
-<h1 style="font-size:64px;font-weight:800;line-height:1.1;margin:0 0 16px;color:#111827;text-align:center">Welcome to My Site</h1>
-<p style="font-size:18px;line-height:1.6;margin:0 0 16px;color:#374151;text-align:left">I am very happy today</p>
-<div style="text-align:left;margin:16px 0;"><a href="https://www.deepseek.com" target="_blank" style="display:inline-block;padding:12px 24px;background:#2563eb;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;">Hello World</a></div>
-  </div>
-  <script src="/script.js"></script>
+
+    <nav>
+        <div class="logo">NEXURA</div>
+        <div class="nav-links">
+            <a href="https://wwwt.oneapp.dev/" target="_blank">About Us</a>
+            <a href="https://muhammadtaqi512q-oss.github.io/ROCK-AI/api" target="_blank"><i class="fas fa-code"></i> Docs</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="badge"><i class="fas fa-graduation-cap"></i> Exclusively for Students</div>
+        <h1>Empowering Students with<br><span>Free High-Speed APIs</span></h1>
+        <p>Build, test, and scale your dream projects without worrying about subscription costs. Nexura provides production-ready APIs completely free.</p>
+        
+        <div class="btn-group">
+            <a href="https://muhammadtaqi512q-oss.github.io/ROCK-AI/api" target="_blank" class="btn btn-primary">
+                <i class="fas fa-bolt"></i> Get API Link
+            </a>
+            <a href="https://wwwt.oneapp.dev/" target="_blank" class="btn btn-secondary">
+                Explore Nexura
+            </a>
+        </div>
+    </section>
+
+    <section class="info-section">
+        <div class="card">
+            <h3 style="margin-bottom: 15px; font-size: 22px;">Why Nexura?</h3>
+            <p style="color: var(--text-muted); font-size: 15px; line-height: 1.6;">
+                We believe that budget constraints shouldn't stop innovation. Nexura is dedicated to providing reliable, fast, and secure API infrastructure to fuel student developers worldwide.
+            </p>
+            <div class="ceo-tag">
+                Visionary Leader & CEO
+                <span class="ceo-name"><i class="fas fa-user-shield"></i> MUHAMMAD TAQI</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 NEXURA. All Rights Reserved. Crafted for the future developers.</p>
+    </footer>
+
 </body>
 </html>
