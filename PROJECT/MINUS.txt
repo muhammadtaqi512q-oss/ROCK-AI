@@ -1,0 +1,6 @@
+Tarika 1: Pehli value mein se baaki sab ka Sum minus karna (Best & Cleanest)
+Agar aap A1 mein se A2 se le kar A100 tak ki tamaam values ko minus karna chahte hain, toh yeh formula likhein:
+
+Excel
+=A1-SUM(A2:A100)
+(Yeh formula A1 ki value uthayega aur usme se A2 se A100 tak ka kul jor minus kar dega.)
