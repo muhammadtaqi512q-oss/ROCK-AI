@@ -4,3 +4,17 @@ Agar aap A1 mein se A2 se le kar A100 tak ki tamaam values ko minus karna chahte
 Excel
 =A1-SUM(A2:A100)
 (Yeh formula A1 ki value uthayega aur usme se A2 se A100 tak ka kul jor minus kar dega.)
+
+
+
+
+
+
+
+
+Tarika 2: Array Formula (Office 365 / Excel 2021+)
+Agar aap Office 365 ya Excel 2021 istemal kar rahe hain, toh sirf Cell C1 mein yeh single formula likhein aur Enter daba dein:
+
+Excel
+=A1:A100-B1:B100
+Yeh ek hi formula poori C1 se C100 ki range ko khud-ba-khud fill kar dega.
