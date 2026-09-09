@@ -1,0 +1,8 @@
+A1 se A100 tak ki saari values ko aapas mein multiply karne ke liye sab se aasan tarika PRODUCT formula ka hai:
+
+1. Range Multiply Formula (Best Tarika)
+A1 se A100 tak ke tamaam numbers ko ek sath multiply karne ke liye:
+
+Excel
+=PRODUCT(A1:A100)
+(Yeh formula A1 * A2 * A3 * ... * A100 ka result ek saath de dega.)
