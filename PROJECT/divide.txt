@@ -1,0 +1,6 @@
+2. PRODUCT & Division Formula (Aasan Tarika)
+A1 ko A2 se A100 tak ke tamaam numbers ke product (ضرب) se divide karne ke liye:
+
+Excel
+=A1/PRODUCT(A2:A100)
+(Yeh A1 / A2 / A3 / ... / A100 ke hi barabar hota hai.)
