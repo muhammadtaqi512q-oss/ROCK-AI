@@ -8,3 +8,13 @@ Aap alag-alag cells ko plus nisthan (+) ke zariye bhi jod sakte hain:
 
 Excel
 =A1+A2+A3+A4+A5
+
+
+
+
+Tarika 2: Single Array Formula (Office 365 / Excel 2021+)
+Agar aap naya Excel istemal kar rahe hain, toh sirf Cell C1 mein yeh ek formula likhein aur Enter daba dein:
+
+Excel
+=A1:A100+B1:B100
+Yeh ek hi formula poori C1 se C100 tak ki range ko khud-ba-khud fill kar dega.
