@@ -1,0 +1,10 @@
+1. SUM Formula (Sab se behter aur aasan tarika)
+Agar aap kisi range ko plus karna chahte hain, toh SUM formula istemal karein:
+
+Excel
+=SUM(A1:A5)
+2. Basic Plus (+) Operator
+Aap alag-alag cells ko plus nisthan (+) ke zariye bhi jod sakte hain:
+
+Excel
+=A1+A2+A3+A4+A5
