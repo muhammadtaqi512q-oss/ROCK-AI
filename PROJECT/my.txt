@@ -1,3 +1,38 @@
+📊 Is Excel Clone Ke SARE Formulas
+Aapke is clone mein formulas 2 tarah ke kaam karte hain. Neeche har ek ka pura detail hai 👇
+
+🟢 TYPE 1: Simple Expression Formulas (=...)
+Ye normal Excel jaise hain — = se start hote hain, aur result foran us cell mein aa jata hai.
+
+Basic Math (Cell References ke saath)
+Formula	Kaam	Example
+=A1+B1	Jama (Addition)	A1=10, B1=20 → result 30
+=A1-B1	Tafreeq (Subtraction)	A1=50, B1=20 → result 30
+=A1*B1	Zarb (Multiplication)	A1=5, B1=4 → result 20
+=A1/B1	Taqseem (Division)	A1=100, B1=4 → result 25
+Multiple Cells / Brackets
+Formula	Kaam
+=A1+B1+C1	Teen cells jama
+=(A1+B1)*C1	Bracket ke saath
+=A1+B1*C1	Normal math priority (× pehle)
+=(A1+B1)/(C1-D1)	Complex calculation
+=A1*2+B1	Number ke saath mix
+Result kahan aata hai?
+Jis cell mein aap formula likhte hain, wahi cell mein result aata hai. Jaise C1 mein =A1+B1 likha → C1 mein result.
+
+⚠️ Error Messages
+Error	Matlab
+#DIV/0!	0 se divide kiya (B1 = 0)
+#ERROR!	Formula galat hai
+🔵 TYPE 2: Command Formulas (Range + Auto-Target)
+Ye special feature hai — jisme aap ek range likhte hain aur result automatically ek column mein fill ho jata hai. Bahut powerful hai — 1000 rows ek saath!
+
+Syntax:
+text
+=(PehlaRef) (op) (DoosraRef) = (TargetRef)
+Range ka matlab _ (underscore)
+A1_100 ka matlab hai: A1 se A100 tak (100 rows).
+
 🎯 Command Formula Examples
 Command Formula	Kya karta hai
 =A1+B1=C1	C1 mein A1+B1 ka result (single row)
@@ -8,3 +43,107 @@ Command Formula	Kya karta hai
 =A1_1000-B1_1000=C1_1000	Row 1 se 1000 tak subtraction
 =A5_50*B5_50=C5_50	Row 5 se 50 tak multiplication
 =A1_100/B1_100=C1_100	Row 1 se 100 tak division
+🔥 Live Calculation (Auto Recalculate)
+Jab aap koi formula lagate hain (jaise =A1_100+B1_100=C1_100), aur baad mein A ya B ki koi value badalte hain → C apne aap update ho jata hai!
+
+Example:
+
+A1=10, B1=5 → C1=15
+
+Ab aap A1=100 karte hain → C1 apne aap 105 ho jayega ✅
+
+🟡 Extra Formulas / Shortcuts
+Cheez	Kaam
+=2+3	Bina cell ref ke simple calculation → 5
+=(10+20)*2	Pure math → 60
+=A1+A2+A3	Multiple rows jama
+🎬 PRACTICAL EXAMPLE — Poora Workflow
+Scenario: 100 students ke marks ka Total nikalna
+Step 1: A column mein naam likhein, B mein Maths, C mein English marks.
+
+Step 2: D1 par click karein aur likhein:
+
+text
+=B1_100+C1_100=D1_100
+Enter dabayein.
+
+✅ Bas! D1 se D100 tak har student ka total aa gaya.
+
+Step 3: Ab agar kisi ka English marks badla → D apne aap update.
+
+Scenario 2: Salary Calculate (Basic + Bonus)
+text
+=A1_500*1.1=C1_500
+Ye A1 se A500 tak har value ko 1.1 se multiply karke C column mein daal dega (10% increment).
+
+Scenario 3: Division (Percentage)
+text
+=B1_1000/A1_1000=C1_1000
+Har row mein B÷A ka result C mein.
+
+🧠 Formula Lagane Ka Tarika
+⚡ Cell mein direct:
+Cell par click
+
+Formula likho: =A1_100+B1_100=C1_100
+
+Enter
+
+⚡ Formula bar se:
+Cell select karo (jaise C1)
+
+Upar fx wale box mein formula likho
+
+Enter
+
+⚡ Column pura fill (Ctrl+M):
+Ek cell mein koi value likho
+
+Ctrl+M dabao → wahi value us column ke neeche tak copy ho jayegi
+
+Agar cell mein formula ho → poora column bhar jayega
+
+📋 Quick Cheat Sheet
+text
+SINGLE ROW:
+  =A1+B1=C1        ➜  C1 = A1 + B1
+  =A5*B5=C5        ➜  C5 = A5 × B5
+
+RANGE (1 se 100 tak):
+  =A1_100+B1_100=C1_100     ➜  C1..C100 = A + B
+  =A1_100-B1_100=C1_100     ➜  C = A − B
+  =A1_100*B1_100=C1_100     ➜  C = A × B
+  =A1_100/B1_100=C1_100     ➜  C = A ÷ B
+
+CUSTOM RANGE (20 se 50 tak):
+  =A20_50+B20_50=C20_50
+
+EXPRESSION (kisi bhi cell mein):
+  =A1+B1
+  =(A1+B1)*2
+  =A1/B1*100
+  =2+3*4
+❗ Zaroori Baatein (Rules)
+Column letter capital ho — A, B, C (chhota a bhi chal jayega).
+
+Range ke andar sab columns ka same range hona chahiye — A1_100+B1_100 ✅, A1_100+B1_50 ⚠️ (phir bhi kaam karega, chhoti range tak).
+
+Target column A ya B se alag ho — =A1+B1=A1 ❌ kaam nahi karega.
+
+Division by zero → #DIV/0! dikhayega.
+
+Formula sirf cell ke = se start hone par chalta hai.
+
+🎯 Summary Table
+Aap chahte ho	Formula
+A + B = C (1 row)	=A1+B1=C1
+A + B = C (100 rows)	=A1_100+B1_100=C1_100
+A − B = C	=A1_100-B1_100=C1_100
+A × B = C	=A1_100*B1_100=C1_100
+A ÷ B = C	=A1_100/B1_100=C1_100
+Percentage	=A1_100/B1_100*100=C1_100 ⚠️*
+Simple math	=A1+B1 (cell mein)
+⚠️ Note: Percentage jaise *100 wale complex formulas =A1_100/B1_100*100=C1_100 direct nahi chalte — un ke liye pehle division =A1_100/B1_100=C1_100 karein, phir alag se =C1_100*100=D1_100 karein.
+
+Bas! Yahi poora formula system hai aapke clone ka. 🚀
+
