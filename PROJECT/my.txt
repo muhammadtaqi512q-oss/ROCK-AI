@@ -1,0 +1,10 @@
+🎯 Command Formula Examples
+Command Formula	Kya karta hai
+=A1+B1=C1	C1 mein A1+B1 ka result (single row)
+=A1-B1=C1	C1 mein A1−B1
+=A1*B1=C1	C1 mein A1×B1
+=A1/B1=C1	C1 mein A1÷B1
+=A1_100+B1_100=C1_100	Row 1 se 100 tak har row mein C = A+B
+=A1_1000-B1_1000=C1_1000	Row 1 se 1000 tak subtraction
+=A5_50*B5_50=C5_50	Row 5 se 50 tak multiplication
+=A1_100/B1_100=C1_100	Row 1 se 100 tak division
